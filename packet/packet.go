@@ -5,9 +5,19 @@ import (
 )
 
 type Packet struct {
-	// Length  int
 	Type    byte
 	Payload string
+}
+
+var mapping map[byte]string
+
+func init() {
+	mapping = make(map[byte]string)
+
+	mapping['H'] = "server heartbeat"
+	mapping['R'] = "client heartbeat"
+	mapping['+'] = "debug"
+	mapping['U'] = "unsequenced data"
 }
 
 func (p Packet) Bytes() []byte {
@@ -19,4 +29,8 @@ func (p Packet) Bytes() []byte {
 	binary.BigEndian.PutUint16(bs, uint16(len(data)))
 
 	return append(bs, data...)
+}
+
+func (p Packet) TypeName() string {
+	return mapping[p.Type]
 }

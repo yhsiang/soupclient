@@ -68,3 +68,23 @@ func TestUnsequencedDataPacketWithText(t *testing.T) {
 	str := fmt.Sprintf("%x", bs)
 	assert.Equal("0015557b22737461747573223a2273756363657373227d", str)
 }
+
+func TestPacketTypeName(t *testing.T) {
+	assert := assert.New(t)
+	serverHeartBeat := &Packet{
+		Type: 'H',
+	}
+	clientHeartBeat := &Packet{
+		Type: 'R',
+	}
+	debug := &Packet{
+		Type: '+',
+	}
+	data := &Packet{
+		Type: 'U',
+	}
+	assert.Equal("server heartbeat", serverHeartBeat.TypeName())
+	assert.Equal("client heartbeat", clientHeartBeat.TypeName())
+	assert.Equal("debug", debug.TypeName())
+	assert.Equal("unsequenced data", data.TypeName())
+}
