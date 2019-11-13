@@ -34,3 +34,17 @@ func (p Packet) Bytes() []byte {
 func (p Packet) TypeName() string {
 	return mapping[p.Type]
 }
+
+func NewPacket(bs []byte) *Packet {
+	p := &Packet{}
+
+	packetLen := binary.BigEndian.Uint16(bs[:2])
+
+	p.Type = bs[2]
+
+	if packetLen > 1 {
+		p.Payload = string(bs[3:])
+	}
+
+	return p
+}

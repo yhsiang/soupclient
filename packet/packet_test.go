@@ -88,3 +88,23 @@ func TestPacketTypeName(t *testing.T) {
 	assert.Equal("debug", debug.TypeName())
 	assert.Equal("unsequenced data", data.TypeName())
 }
+
+func TestNew(t *testing.T) {
+	assert := assert.New(t)
+	serverHeartBeat := &Packet{
+		Type: 'H',
+	}
+	p := NewPacket(serverHeartBeat.Bytes())
+
+	assert.Equal(serverHeartBeat.TypeName(), p.TypeName())
+
+	data := &Packet{
+		Type:    'U',
+		Payload: `{"status":"success"}`,
+	}
+	p2 := NewPacket(data.Bytes())
+
+	assert.Equal(data.TypeName(), p2.TypeName())
+	assert.Equal(data.Payload, p2.Payload)
+
+}

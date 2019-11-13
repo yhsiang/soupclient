@@ -1,6 +1,6 @@
 all: build-linux build-darwin-amd64 build-windows-amd64 docker
 test:
-	go test ./...
+	go test -timeout 30s ./...
 build-linux:
 	GOOS=linux GOARCH=amd64 go build -o go-soupclient .
 build-darwin-amd64:
